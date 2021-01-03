@@ -1,0 +1,110 @@
+<h1>Examples of Mermaid Access in Action</h1>
+<h2>Timecrest Town Map</h2>
+<div class="mermaid-access">
+graph LR
+    apple[Apple courtyard]
+    library[Grand Library]
+    apple -- 5 minutes --- library
+    merchant[The Timecrest Merchant]
+    library -- 20 minutes --- merchant
+    drape[Drape Heaven]
+    merchant -- 10 minutes --- drape
+    blockM[Block M]
+    drape -- 20 minutes --- blockM
+    admin[The Administration Chambers]
+    library -- 20 minutes --- admin
+    admin -- 20 minutes --- blockM
+    admin -- 30 minutes --- drape
+    blockC[Block C]
+    blockC -- 45 minutes --- blockM
+    gardens[The Gardens]
+    blockM -- 20 minutes --- gardens
+    eastGate[The Eastern Gate]
+    gardens -- 40 minutes --- eastGate
+    ash[Ash's Room]
+    gardens -- 20 minutes --- ash
+    ash -- 25 minutes --- eastGate
+</div>
+<h2>Should I Bring an Umbrella?</h2>
+<div class="mermaid-access">
+graph TD
+    Start((Start))
+    raining{Raining}
+    find[Find umbrella]
+    found{Found umbrella}
+    bring[Bring umbrella]
+    dontBring[Dont bring umbrella]
+    End((End))
+    
+    Start --> raining
+    raining -- Yes --> find
+    raining -- No --> dontBring
+    dontBring --> End
+    find --> found
+    found -- Yes --> bring
+    found -- No --> raining
+    bring --> End
+</div>
+<h2>Medical Services</h2>
+<div class="mermaid-access">
+graph TD
+    Start(Start)
+    End(End)
+    arrive[Patient arrives]
+    registered{Registered patient}
+    availableNurse{Available nurse}
+    recordHC[Record health condition]
+    availableDoctor{Available doctor}
+    assignPatient[Assign patient to doctor]
+    needFollowup{Need followup}
+    arrangeAppointment[Arrange appointment]
+    needMeds{Need medication}
+    givePx[Give patient prescription]
+    leaves[Patient leaves]
+    register[Register patient]
+    waitNurse[Wait for available nurse]
+    waitDoctor[Wait for available doctor]
+
+    Start --> arrive
+    arrive --> registered
+    registered -- Yes --> availableNurse
+    availableNurse -- Yes --> recordHC
+    recordHC --> availableDoctor
+    availableDoctor -- Yes --> assignPatient
+    assignPatient --> needFollowup
+    needFollowup -- Yes --> arrangeAppointment
+    arrangeAppointment --> needMeds
+    needFollowup -- No --> needMeds
+    needMeds -- Yes --> givePx
+    givePx --> leaves
+    needMeds -- No --> leaves
+    leaves --> End
+    availableDoctor -- No --> waitDoctor
+    waitDoctor --> availableDoctor
+    availableNurse -- No --> waitNurse
+    waitNurse --> availableNurse
+    registered -- No --> register
+    register --> registered
+</div>
+<h2>Example with subgraphs</h2>
+<div class="mermaid-access">
+graph TD
+    visit[Visit Prof. Oak]
+    subgraph choose[Choose your pokemon]
+        char[Choose Charmander]
+        squirt[Choose Squirtle]
+        bulb[Choose Bulbasaur]
+    end
+    go[Go on your adventure]
+
+    visit --> char
+    visit --> squirt
+    visit --> bulb
+    char --> go
+    squirt --> go
+    bulb --> go
+</div>
+<!-- Required scripts for MermaidAccess -->
+<script src="https://combinatronics.com/mermaid-js/mermaid/release/8.8.4/dist/mermaid.min.js"></script>
+<script src="mermaid-access-elm.js"></script>
+<script src="mermaid-access.js"></script>
