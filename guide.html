@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>MermaidAccess: Accessible graph viewer</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">MermaidAccess: Accessible graph viewer</h1>
+</div>
+<p>The motivation behind this project is to produce a way to embed graphs in web pages that are both rendered visually, but also can be viewed accessibly using a screen reader. The latter is achieved by adding for each graph on the web page an accessible viewer that allows a screen reader user to traverse the graph and get information about it using various keyboard shortcuts.</p>
+<h2>Short intro to graphs</h2>
+<p>Firstly I will try to provide context for what a graph is. Simply put, a graph just represents a collection of related things. It consists of nodes (representing things) and edges (representing relationships between the nodes).</p>
+<p>So for example, a graph can represent how a set of rooms are connected in a house. Each room is a node in the graph and there is an edge between two rooms if they are connected by a door. So, a simple instance of such a graph could be described like so:</p>
+<p>Rooms graph</p>
+<p>Nodes: EntryHall, LivingRoom, Kitchen, Bathroom</p>
+<p>Edges: (EntryHall, LivingRoom), (EntryHall, Bathroom), (LivingRoom, Kitchen)</p>
+<p>So the above graph represents 4 rooms, each a node in the graph and there are three connections between the rooms, each an edge in the graph. From the above graph we can tell that the entry hall is connected to two rooms, the living room and the bathroom. We can also for example deduce that the living room has two doors, since it is part of two edges (each representing a connection between two rooms). Another thing we can deduce is that we can’t go from the bathroom straight to the kitchen or living room because they aren’t directly connected since there isn’t any edge between the bathroom and kitchen or between the bathroom and the living room.</p>
+<p>Such a graph is typically represented visually by drawing each node as some shape like a circle or rectangle with a label and drawing each edge as a line between the two related nodes. This representation allows sighted people to get information from the graph much more efficiently than by just reading a description of the graph.</p>
+<h2>The accessible viewer</h2>
+<p>Since visually impaired users can’t make use of the visualisations to efficiently get information about a graph, this project seeks to provide an accessible graph viewer as an alternative. The accessible viewer is embedded in the web page, next to the regular visualisation as a button. Pressing the button expands the embedded accessible viewer application and moves the system focus into it. NVDA should go into focus mode automatically. Focus mode is required for the keyboardcommands to work.</p>
+<p>The viewerdisplays and organizes information about the graph in a table. Please note this table isn’t standard HTML tables, like you’d normally see on the web, so you can’t use NVDA commands like ctrl+alt+arrows to navigate, instead you have to use the viewer’s custom keyboard commands. At any one time, the viewer displays the currently selected table item. Anytime it changes, NVDA reads out the new item automatically. You can also use the NVDA review cursor commands or switch to browse mode to read the contents of the current item.</p>
+<p>Each table has multiple columns and each column can have one or more items. Right/left arrows move to next/previous column. If column has more than one item, down/up arrows move to next/previous item. Pressing Escape exits out of the viewer, so you can go on browsing the web page as normal.</p>
+<p>Here is a viewer for the simple example of a graph described earlier for reference. The meaning behind the displayed information is explained in the following paragraphs. Don’t forget you can exit out of it using escape (in focus mode)!</p>
+<div class="mermaid-access">
+graph LR
+    entry_hall[entry hall]
+    living_room[living room]
+    entry_hall --- bathroom
+    entry_hall --- living_room
+    living_room --- kitchen
+</div>
+<p>When you initially enter the viewer for a graph, the table is filled with information about the graph itself. It has just two columns. A summary column that just lets you know this is information about the root graph, and how many parts the graph is made up of. For most graphs, the number of parts is just the number of nodes, but more complex graphs can also contain subgraphs.</p>
+<p>The other column in this table lists all the nodes (and/or subgraphs). These items display summary information about the nodes, like their lable and how many edges are connected to them. Pressing enter will move to the table with information for that particular node.</p>
+<p>This will place you in the summary column of the node’s table, which gives the node’s label and asummary of how many edges are connected to it. The next column lists all of the graph’s edges, givingthe edge label (if any) and what other node the edge connects to. Pressing enter navigates to the connected node’s table. There are three different types of edges a node can have and it has a column for each edge type it has, but in this simple example there are only undirected edges (more on that later). The last column just lists the parent graph, which in this simple case is always the root graph, but in more complex cases could be a subgraph.</p>
+<h3>Advanced commands</h3>
+<p>Pressing backspace moves back to the previously visited table.</p>
+<p>One table can be marked as home by pressing shift+H. pressing H moves back to the home table.</p>
+<p>Pressing F brings up the viewer’s search dialogue. Here you can search for a node or edge by its label. All nodes and edges whose label contains the query string are listed as results. Down/up arrow moves between search results. Pressing enter on a result moves to its corresponding table. Pressing escape exits out of the searching dialogue.</p>
+<h2>More examples and keyboard reference</h2>
+<p>A more complex and useful graph representing the Timecrest town map can be found on <a href="examples.html">this page of example graphs</a>. Here is also a <a href="commands.html">summary of the keyboard commands</a>. Note The other graphs in the examples contain directed edges, so it is worth reading ahead for understanding those graphs.</p>
+<h2>Directed and Undirected Eges</h2>
+<p>The simple graph example of rooms is a case of an undirected graph, where the edges don’t have a direction. What this means is the edges represent relationships that go both ways. Simply, if there is an undirected edge between room A and room B, then it means room A is connected to room B, as well as the other way around that room B is connected to room A.</p>
+<p>We can represent one sided relationships using directed edges. In this case the edge has a direction, meaning it is starting at one node and ending at another. A simple example could be a directed graph representing a hierarchy of managers. If there is an edge from Mark to Tom, then it represents that Mark manages Tom. Since the relationship doesn’t hold both ways, it is important it is directed so we can distinguish who is the manager and the managee in the relationship.</p>
+<p>The viewer will give a separate column for outgoing edges and incoming edges. Outgoing edges are the list of edges where the current node is the source. Incoming edges are the ones where the current node is the target. So for the manager hierarchy graph, a node’s outgoing edges connect to who the person manages and its incoming edges connect to who is the current person’s manager. No outgoing edgesimplies the person doesn’t manage anyone. No incoming edges imply the person has no manager.</p>
+<h3>Simple manager hierarchy graph example</h3>
+<div class="mermaid-access">
+graph TD
+    Julia --> Mark
+    Mark --> Tom
+    Julia --> Rebecca
+</div>
+<h2>Thanks for checking this out!</h2>
+<p>I would love to get your feedback. You can email me directly at <a href="mailto:2093358k@student.gla.ac.uk">2093358k@student.gla.ac.uk</a> or if you are on the audiogames forum, then post on this topic.</p>
+<!-- Required scripts for MermaidAccess -->
+<script src="https://combinatronics.com/mermaid-js/mermaid/release/8.8.4/dist/mermaid.min.js"></script>
+<script src="mermaid-access-elm.js"></script>
+<script src="mermaid-access.js"></script>
+</body>
+</html>

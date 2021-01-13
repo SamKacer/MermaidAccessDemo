@@ -37,13 +37,13 @@ graph LR
     gardens -- 20 minutes --- ash
     ash -- 25 minutes --- eastGate
 </div>
-<h2>Should I Bring an Umbrella?</h2>
+<h2>Should I Bring an Umbrella? Flowchart</h2>
 <div class="mermaid-access">
 graph TD
     Start((Start))
-    raining{Raining}
+    raining{Is it raining?}
     find[Find umbrella]
-    found{Found umbrella}
+    found{Have you found the umbrella?}
     bring[Bring umbrella]
     dontBring[Dont bring umbrella]
     End((End))
@@ -57,20 +57,20 @@ graph TD
     found -- No --> raining
     bring --> End
 </div>
-<h2>Medical Services</h2>
+<h2>Medical Services Flowchart</h2>
 <div class="mermaid-access">
 graph TD
     Start(Start)
     End(End)
     arrive[Patient arrives]
-    registered{Registered patient}
-    availableNurse{Available nurse}
+    registered{Is patient registered?}
+    availableNurse{Is nurse available?}
     recordHC[Record health condition]
-    availableDoctor{Available doctor}
+    availableDoctor{Is doctor available?}
     assignPatient[Assign patient to doctor]
-    needFollowup{Need followup}
+    needFollowup{Is followup needed?}
     arrangeAppointment[Arrange appointment]
-    needMeds{Need medication}
+    needMeds{Is medication needed?}
     givePx[Give patient prescription]
     leaves[Patient leaves]
     register[Register patient]
