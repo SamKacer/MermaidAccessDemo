@@ -15,16 +15,19 @@
 <h2>Short intro to graphs</h2>
 <p>Firstly I will try to provide context for what a graph is. Simply put, a graph just represents a collection of related things. It consists of nodes (representing things) and edges (representing relationships between the nodes).</p>
 <p>So for example, a graph can represent how a set of rooms are connected in a house. Each room is a node in the graph and there is an edge between two rooms if they are connected by a door. So, a simple instance of such a graph could be described like so:</p>
-<p>Rooms graph</p>
-<p>Nodes: EntryHall, LivingRoom, Kitchen, Bathroom</p>
-<p>Edges: (EntryHall, LivingRoom), (EntryHall, Bathroom), (LivingRoom, Kitchen)</p>
+<h3>Rooms graph Description</h3>
+<ul>
+<li><p>Nodes: EntryHall, LivingRoom, Kitchen, Bathroom</p></li>
+<li><p>Edges: (EntryHall, LivingRoom), (EntryHall, Bathroom), (LivingRoom, Kitchen)</p></li>
+</ul>
 <p>So the above graph represents 4 rooms, each a node in the graph and there are three connections between the rooms, each an edge in the graph. From the above graph we can tell that the entry hall is connected to two rooms, the living room and the bathroom. We can also for example deduce that the living room has two doors, since it is part of two edges (each representing a connection between two rooms). Another thing we can deduce is that we can’t go from the bathroom straight to the kitchen or living room because they aren’t directly connected since there isn’t any edge between the bathroom and kitchen or between the bathroom and the living room.</p>
 <p>Such a graph is typically represented visually by drawing each node as some shape like a circle or rectangle with a label and drawing each edge as a line between the two related nodes. This representation allows sighted people to get information from the graph much more efficiently than by just reading a description of the graph.</p>
 <h2>The accessible viewer</h2>
 <p>Since visually impaired users can’t make use of the visualisations to efficiently get information about a graph, this project seeks to provide an accessible graph viewer as an alternative. The accessible viewer is embedded in the web page, next to the regular visualisation as a button. Pressing the button expands the embedded accessible viewer application and moves the system focus into it. NVDA should go into focus mode automatically. Focus mode is required for the keyboard commands to work.</p>
 <p>The viewer displays and organizes information about the graph in a table. Please note this table isn’t standard HTML tables, like you’d normally see on the web, so you can’t use NVDA commands like ctrl+alt+arrows to navigate, instead you have to use the viewer’s custom keyboard commands. At any one time, the viewer displays the currently selected table item. Anytime it changes, NVDA reads out the new item automatically. You can also use the NVDA review cursor commands or switch to browse mode to read the contents of the current item.</p>
-<p>Each table has multiple columns and each column can have one or more items. Right/left arrows move to next/previous column. If column has more than one item, down/up arrows move to next/previous item. Pressing Escape exits out of the viewer, so you can go on browsing the web page as normal.</p>
+<p>Each table has multiple columns and each column can have one or more items. Right/left arrows move to next/previous column. If column has more than one item, down/up arrows move to next/previous item (Please note that navigating with arrows wraps around). Pressing Escape exits out of the viewer, so you can go on browsing the web page as normal.</p>
 <p>Here is a viewer for the simple example of a graph described earlier for reference. The meaning behind the displayed information is explained in the following paragraphs. Don’t forget you can exit out of it using escape (in focus mode)!</p>
+<h3>Room graph with accessible viewer</h3>
 <div class="mermaid-access">
 graph LR
     entry_hall[entry hall]
@@ -37,7 +40,7 @@ graph LR
 <p>The other column in this table lists all the nodes (and/or subgraphs). These items display summary information about the nodes, like their label and how many edges are connected to them. Pressing enter will move to the table with information for that particular node.</p>
 <p>This will place you in the summary column of the node’s table, which gives the node’s label and a summary of how many edges are connected to it. The next column lists all of the graph’s edges, giving the edge label (if any) and what other node the edge connects to. Pressing enter navigates to the connected node’s table. There are three different types of edges a node can have and it has a column for each edge type it has, but in this simple example there are only undirected edges (more on that later). The last column just lists the parent graph, which in this simple case is always the root graph, but in more complex cases could be a subgraph.</p>
 <h3>Advanced commands</h3>
-<p>Pressing backspace moves back to the previously visited table.</p>
+<p>Pressing Ctrl+Left/Right moves backwards/forwards between visited tables, analogous to going back or forward in web browser history. This can be useful for retracing your steps or reviewing the path you have taken through the graph.</p>
 <p>One table can be marked as home by pressing shift+H. pressing H moves back to the home table.</p>
 <p>Pressing F brings up the viewer’s search dialogue. Here you can search for a node or edge by its label. All nodes and edges whose label contains the query string are listed as results. Down/up arrow moves between search results. Pressing enter on a result moves to its corresponding table. Pressing escape exits out of the searching dialogue.</p>
 <h2>More examples and keyboard reference</h2>
